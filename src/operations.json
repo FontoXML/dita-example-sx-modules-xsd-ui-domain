@@ -1,0 +1,78 @@
+{
+	":insert-uicontrol": {
+		"label": "t__UI control",
+		"alternatives": [
+			":_horizontal-insert-uicontrol",
+			":_toggle-uicontrol"
+		]
+	},
+	":_toggle-uicontrol": {
+		"steps": [
+			{
+				"type": "operation/toggle-inline-frame-element",
+				"data": {
+					"nodeName": "uicontrol"
+				}
+			}
+		]
+	},
+	":_horizontal-insert-uicontrol": {
+		"label": "UI control",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestor",
+				"data": {
+					"selectionAncestorNodeSpec": "self::menucascade"
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"uicontrol",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":toggle-shortcut": {
+		"label": "t__Shortcut",
+		"steps": [
+			{
+				"type": "operation/toggle-inline-frame-element",
+				"data": {
+					"nodeName": "shortcut"
+				}
+			}
+		]
+	},
+	":toggle-menucascade": {
+		"label": "t__Menu cascade",
+		"steps": [
+			{
+				"type": "operation/vertical-insert",
+				"data": {
+					"childNodeStructure": [
+						"menucascade",
+						[
+							"uicontrol",
+							[{ "bindTo": "selection", "empty": true }]
+						]
+					]
+				}
+			}
+		]
+	},
+	":toggle-wintitle": {
+		"label": "t__Window title",
+		"steps": [
+			{
+				"type": "operation/toggle-inline-frame-element",
+				"data": {
+					"nodeName": "wintitle"
+				}
+			}
+		]
+	}
+}
