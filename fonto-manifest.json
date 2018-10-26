@@ -1,1 +1,6 @@
-{}
+{
+	"dependencies": {
+		"fontoxml-dita": "platform/fontoxml-dita",
+		"fontoxml-platform-base": "platform/fontoxml-platform-base"
+	}
+}

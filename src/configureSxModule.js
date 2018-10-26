@@ -1,14 +1,16 @@
 define([
 	'fontoxml-families/configureAsFrameWithBreakableBlock',
 	'fontoxml-families/configureAsInlineFrame',
-	'fontoxml-families/configureContextualOperations',
+	'fontoxml-families/configureProperties',
+	'fontoxml-families/createElementMenuButtonWidget',
 	'fontoxml-families/createIconWidget',
 	'fontoxml-families/createMarkupLabelWidget',
 	'fontoxml-localization/t'
 ], function (
 	configureAsFrameWithBreakableBlock,
 	configureAsInlineFrame,
-	configureContextualOperations,
+	configureProperties,
+	createElementMenuButtonWidget,
 	createIconWidget,
 	createMarkupLabelWidget,
 	t
@@ -24,6 +26,7 @@ define([
 		//     user interface domain, a special set of DITA elements designed to document user interface tasks,
 		//     concepts and reference information. Category: User interface elements
 		configureAsInlineFrame(sxModule, 'self::menucascade', t('menu cascade'), {
+			ignoredForNavigationNextToSelector: 'false()',
 			defaultTextContainer: 'uicontrol'
 		});
 
@@ -31,22 +34,20 @@ define([
 		//     The <screen> element contains or refers to a textual representation of a computer screen or user
 		//     interface panel (window). Category: User interface elements
 		configureAsFrameWithBreakableBlock(sxModule, 'self::screen', t('screen'), {
+			backgroundColor: 'brown',
 			contextualOperations: [
 				{ name: ':contextual-unwrap-screen' }
 			],
 			emptyElementPlaceholderText: t('type the screen text'),
+			isMonospaced: true,
 			withNewlineBreakToken: true,
-			visualization: {
-				backgroundColor: 'brown',
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				],
-				isMonospaced: true
-			}
+			blockHeaderLeft: [
+				createMarkupLabelWidget()
+			],
+			blockOutsideAfter: [
+				createElementMenuButtonWidget()
+			]
 		});
-
-		// attributes are not correctly validated yet
-		configureContextualOperations(sxModule, 'self::screen[@expanse or @frame or @scale or @spectitle or @xml:space]', []);
 
 		// shortcut
 		//     The <shortcut> element identifies a keyboard shortcut for a menu or window action. This element is
@@ -67,14 +68,11 @@ define([
 			emptyElementPlaceholderText: t('type the label of the UI control')
 		});
 
-		configureAsInlineFrame(sxModule, 'self::uicontrol[parent::menucascade]', t('UI control'), {
+		configureProperties(sxModule, 'self::uicontrol[parent::menucascade and preceding-sibling::uicontrol]', {
 			emptyElementPlaceholderText: t('type the label of the UI control'),
-			visualization: {
-				inlineBefore: [
-					createIconWidget('angle-right')
-				],
-				outputClass: 'element-dita-uicontrol-in-menucascade'
-			}
+			inlineBefore: [
+				createIconWidget('angle-right')
+			]
 		});
 
 		// wintitle
